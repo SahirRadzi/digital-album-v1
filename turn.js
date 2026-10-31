@@ -793,8 +793,9 @@
             (d.pageZoom[b.page] = d.zoom)),
           "single" == d.display &&
             c &&
-            (("l" == c.charAt(1) && "ltr" == d.direction) ||
-            ("r" == c.charAt(1) && "rtl" == d.direction)
+            // guna huruf terakhir supaya bucu muka keras ("l"/"r") pun dikenal pasti
+            (("l" == c.slice(-1) && "ltr" == d.direction) ||
+            ("r" == c.slice(-1) && "rtl" == d.direction)
               ? ((b.next = b.next < b.page ? b.next : b.page - 1),
                 (b.force = !0))
               : (b.next = b.next > b.page ? b.next : b.page + 1)),
@@ -828,7 +829,7 @@
           h = e.data();
         c =
           "single" == h.display
-            ? "br" == b.corner || "tr" == b.corner
+            ? "br" == b.corner || "tr" == b.corner || "r" == b.corner
               ? b.x < c.width() / 2
               : b.x > c.width() / 2
             : 0 > b.x || b.x > c.width();
@@ -1059,6 +1060,13 @@
           b = a.opts.page,
           c = a.opts.turn.data(),
           d = b % 2;
+        // Mod satu muka (telefon): muka keras boleh diselak ke depan & ke belakang
+        if ("hard" == a.effect && "single" == c.display)
+          return 1 == b
+            ? ["ltr" == c.direction ? "r" : "l"]
+            : b == c.totalPages
+            ? ["ltr" == c.direction ? "l" : "r"]
+            : ["l", "r"];
         return "hard" == a.effect
           ? "ltr" == c.direction
             ? [d ? "r" : "l"]
