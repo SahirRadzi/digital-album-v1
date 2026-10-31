@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="style.css" />
+  <title>Album HSM</title>
+</head>
+
+<body>
+  <div class="flipbook">
+    <div class="hard">Program Hari Kanser Payudara 2026 <small>HOSPITAL SERI MANJUNG</small></div>
+    <div class="hard"></div>
+    <div>
+      <small>Gambar Oktober 2026❤️</small>
+      <small>Hospital Seri Manjung, Perak.</small>
+    </div>
+    <div>
+      <img src="imej-pro-kanser/851263596_122302958648140803_3649488601661899284_n.jpg" alt="" />
+      <small> Tajuk 1 </small>
+    </div>
+    <div>
+      <img src="imej-pro-kanser/852063759_122302960946140803_6219714925788551753_n.jpg" alt="" />
+      <small> Tajuk 2 </small>
+    </div>
+    <div>
+      <img src="imej-pro-kanser/853113385_122302958690140803_6442554179070747242_n.jpg" alt="" />
+      <small> Tajuk 3 </small>
+    </div>
+    <div>
+      <img src="imej-pro-kanser/854361647_122302958960140803_5805081713769278531_n.jpg" alt="" />
+      <small> Tajuk 4 </small>
+    </div>
+    <div>
+      <img src="imej-pro-kanser/855843946_122302959368140803_6937073451121432821_n.jpg" alt="" />
+      <small> Tajuk 5 </small>
+    </div>
+    <div class="hard"></div>
+    <div class="hard">Thank You <small> Terima Kasih</small></div>
+  </div>
+
+  <script src="jquery.js"></script>
+  <script src="turn.js"></script>
+  <script>
+    var $book = $(".flipbook");
+    var RATIO = 600 / 500; // nisbah asal satu muka surat (500 x 600)
+
+    // Telefon / skrin potret: satu muka surat. Tablet landskap / desktop: dua muka.
+    function getDisplay() {
+      return (window.innerWidth < 768 || window.innerWidth < window.innerHeight) ? "single" : "double";
+    }
+
+    function getSize(display) {
+      var pages = display === "double" ? 2 : 1;
+      var pageW = Math.min(500, (window.innerWidth * 0.96) / pages, (window.innerHeight * 0.94) / RATIO);
+      pageW = Math.floor(pageW);
+      return { width: pageW * pages, height: Math.floor(pageW * RATIO) };
+    }
+
+    var display = getDisplay();
+    var size = getSize(display);
+    $book.turn({ width: size.width, height: size.height, display: display, autoCenter: true });
+
+    function resizeBook() {
+      var d = getDisplay();
+      if (d !== $book.turn("display")) $book.turn("display", d);
+      var s = getSize(d);
+      $book.turn("size", s.width, s.height);
+    }
+
+    var timer;
+    $(window).on("resize orientationchange load", function () {
+      clearTimeout(timer);
+      timer = setTimeout(resizeBook, 150);
+    });
+  </script>
+</body>
+
+</html>
